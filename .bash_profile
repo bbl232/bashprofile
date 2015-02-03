@@ -84,4 +84,3 @@ export GREP_OPTIONS="-I --color --exclude=*.svn-base"
 
 export SCALA_HOME=/usr/local/share/scala-2.9.2
 export PATH=$PATH:$SCALA_HOME/bin
-export PATH=$PATH:/Users/matt/android/android-sdk-macosx/tools:/Users/matt/android/android-sdk-macosx/platform-tools
