@@ -39,7 +39,7 @@ colortest() {
 
 alias cd..='cd ..'
 alias ..='cd ..'
-alias ls='ls -alhp'
+alias ls='ls -alhG'
 
 # Resize our window oppourtunistically
 shopt -s checkwinsize
