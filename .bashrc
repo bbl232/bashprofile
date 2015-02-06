@@ -40,6 +40,7 @@ colortest() {
 alias cd..='cd ..'
 alias ..='cd ..'
 alias ls='ls -alhG'
+alias gl='git log --oneline --graph --all --decorate'
 
 # Resize our window oppourtunistically
 shopt -s checkwinsize
