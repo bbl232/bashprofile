@@ -63,6 +63,7 @@ PROMPT_COMMAND='echo -ne "\033]0; [${USER}@${HOSTNAME} ${PWD/$HOME/~}]\007"'
 export PATH=$PATH:~/workspace/dev_scripts/arcanist/bin
 alias cr='arc diff --preview'
 
+export EDITOR=vim
 export PATH=$PATH:/usr/local/share/npm/bin/
 export NODE_PATH='/usr/local/lib/node'
 export NODE_PATH=/usr/local/lib/node:/usr/local/lib/node
