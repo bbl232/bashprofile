@@ -1,0 +1,87 @@
+Host vyatta.well.lan
+User vyatta
+
+Host internal.well.lan
+User root
+
+Host media.well.ca
+Port 28947
+User wellmedia
+
+Host 204.15.199.162 well.ca
+Port 21122
+User wellca
+
+Host im.well.ca
+Port 2222
+User imwell
+
+Host prism.well.prod
+User root
+
+Host smc03.well.prod smc02.well.prod smc01.well.prod
+User root
+
+Host *.well.ca *.well.lan *.well.prod *.tulip.prod *.carnation.prod 67.223.99.??
+User welladmin
+
+Host replica
+Port 2255
+User welladmin
+
+Host *.well.prod multistore.tulip.prod phabricator.tulip.prod internal.tulip.prod lb2.tulip.prod stage01.tulip.prod chef.tulip.prod *.carnation.prod
+ProxyCommand ssh 67.223.99.60 nc %h %p
+#ProxyCommand ssh 67.223.99.50 nc %h %p
+
+Host www*.well.aws
+ User welladmin
+ ProxyCommand ssh nat01.well.aws nc $(echo %h | sed -E "s/aws$/prod/") %p
+
+Host nat01.well.aws
+ HostName ec2-54-88-182-196.compute-1.amazonaws.com
+ User welladmin
+
+Host manage.well.prod
+HostName 67.223.99.50
+
+Host manage02-smc02.well.prod
+HostName 67.223.99.60
+
+Host *
+ForwardAgent yes
+ServerAliveInterval 60
+
+Host sftp.tulip.io
+  Hostname sftp.tulip.io
+  User welladmin
+  StrictHostKeyChecking no
+
+Host nat01-imagesvpc nat01-imagesvpc.tulip.prod
+  Hostname ec2-54-86-121-252.compute-1.amazonaws.com
+  User welladmin
+  StrictHostKeyChecking no
+
+Host images*.tulip.prod proxy*.tulip.prod *.images.prod
+  ProxyCommand ssh nat01-imagesvpc nc %h %p
+  User welladmin
+  StrictHostKeyChecking no
+
+Host nat01 nat01.tulip.prod
+  Hostname 54.84.30.168
+  User welladmin
+  StrictHostKeyChecking no
+
+Host *.aircanada.* *.carnation.dev *.gamestop.* *.tulip.* *.mlse.* *.toysrus.* *.well.staging *.frankandoak.* *.michaelkors.*
+  ProxyCommand ssh nat01 nc %h %p
+  User welladmin
+  StrictHostKeyChecking no
+
+Host vagrant
+  HostName 127.0.0.1
+  User vagrant
+  Port 2222
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentityFile ~/.vagrant.d/insecure_private_key
+  IdentitiesOnly yes
