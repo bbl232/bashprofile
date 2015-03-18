@@ -5,6 +5,16 @@ if [ -f ~/.bashrc ]; then
 	. ~/.bashrc
 fi
 
+_ops()
+{
+  if [ $COMP_CWORD -eq 1 ]; then
+    COMPREPLY=( $(compgen -W "backup backup-mysql create-cluster create-cookbook create-dns-zone create-vpc update-cluster update-cookbook update-environment update-role update-vpc bootstrap-node" -- "${COMP_WORDS[${COMP_CWORD}]}") )
+  else
+    COMPREPLY=()
+  fi
+}
+complete -o default -F _ops ops
+
 function uvimgit (){
   if [[ "${1}" == "" ]]; then
     echo "Provide a git commit message"
