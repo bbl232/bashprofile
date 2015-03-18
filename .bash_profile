@@ -5,6 +5,35 @@ if [ -f ~/.bashrc ]; then
 	. ~/.bashrc
 fi
 
+function uvimgit (){
+  if [[ "${1}" == "" ]]; then
+    echo "Provide a git commit message"
+    return 1
+  fi
+  cp -r ~/.vim/* ~/workspace/vimgit/.vim/.
+  cp ~/.vimrc ~/workspace/vimgit/.vimrc
+  pushd ~/workspace/vimgit/
+  find .vim -name ".git*" -exec rm -rf '{}' \;
+  git add .
+  git status
+  r="n"
+  echo "Proceed? y/N"
+  read r
+  if [[ "y" == "${r}" ]]; then
+      git commit -m "${1}"
+      git push
+  fi
+  popd
+}
+
+function images (){
+ if [[ ! -z $2 ]]; then
+  ssh $1.images.$2
+ else
+  ssh $1.images.prod
+ fi
+}
+
 function well (){
  if [[ ! -z $2 ]]; then
   ssh $1.well.$2
