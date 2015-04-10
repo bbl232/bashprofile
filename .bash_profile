@@ -106,6 +106,15 @@ function clone () {
  popd
 }
 
+LESS_PATH=`which less`
+function less() {
+  if [[ -d $1 ]]; then
+      ls $1
+  elif [[ -f $1 ]]; then
+      $LESS_PATH $1
+  fi
+}
+
 # User specific environment (stuff that will get passed on to subshells)
 
 export PATH=$HOME/.bin:~/.gem/ruby/1.8/bin:$PATH
