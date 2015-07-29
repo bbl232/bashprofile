@@ -8,41 +8,12 @@ fi
 _ops()
 {
   if [ $COMP_CWORD -eq 1 ]; then
-    COMPREPLY=( $(compgen -W "backup backup-mysql create-cluster create-cookbook create-dns-zone create-vpc update-cluster update-cookbook update-environment update-role update-vpc bootstrap-node" -- "${COMP_WORDS[${COMP_CWORD}]}") )
+    COMPREPLY=( $(compgen -W "$(ops __COMPLETE| grep '#' | awk '{print $1}')" -- "${COMP_WORDS[${COMP_CWORD}]}") )
   else
     COMPREPLY=()
   fi
 }
 complete -o default -F _ops ops
-
-function uvimgit (){
-  if [[ "${1}" == "" ]]; then
-    echo "Provide a git commit message"
-    return 1
-  fi
-  cp -r ~/.vim/* ~/workspace/vimgit/.vim/.
-  cp ~/.vimrc ~/workspace/vimgit/.vimrc
-  pushd ~/workspace/vimgit/
-  find .vim -name ".git*" -exec rm -rf '{}' \;
-  git add .
-  git status
-  r="n"
-  echo "Proceed? y/N"
-  read r
-  if [[ "y" == "${r}" ]]; then
-      git commit -m "${1}"
-      git push
-  fi
-  popd
-}
-
-function images (){
- if [[ ! -z $2 ]]; then
-  ssh $1.images.$2
- else
-  ssh $1.images.prod
- fi
-}
 
 function well (){
  if [[ ! -z $2 ]]; then
@@ -65,6 +36,14 @@ function tru () {
   ssh $1.toysrus.$2
  else
   ssh $1.toysrus.prod
+ fi
+}
+
+function ustru () {
+ if [[ ! -z $2 ]]; then
+  ssh $1.us-toysrus.$2
+ else
+  ssh $1.us-toysrus.prod
  fi
 }
 
