@@ -15,67 +15,11 @@ _ops()
 }
 complete -o default -F _ops ops
 
-function well (){
- if [[ ! -z $2 ]]; then
-  ssh $1.well.$2
+function s (){
+ if [[ ! -z $3 ]]; then
+    ssh $2.$1.$3
  else
-  ssh $1.well.prod
- fi
-}
-
-function fando () {
- if [[ ! -z $2 ]]; then
-  ssh $1.frankandoak.$2
- else
-  ssh $1.frankandoak.prod
- fi
-}
-
-function tru () {
- if [[ ! -z $2 ]]; then
-  ssh $1.toysrus.$2
- else
-  ssh $1.toysrus.prod
- fi
-}
-
-function ustru () {
- if [[ ! -z $2 ]]; then
-  ssh $1.us-toysrus.$2
- else
-  ssh $1.us-toysrus.prod
- fi
-}
-
-function tulip () {
- if [[ ! -z $2 ]]; then
-  ssh $1.tulip.$2
- else
-  ssh $1.tulip.prod
- fi
-}
-
-function mlse () {
- if [[ ! -z $2 ]]; then
-  ssh $1.mlse.$2
- else
-  ssh $1.mlse.prod
- fi
-}
-
-function mk () {
- if [[ ! -z $2 ]]; then
-  ssh $1.michaelkors.$2
- else
-  ssh $1.michaelkors.prod
- fi
-}
-
-function gs () {
- if [[ ! -z $2 ]]; then
-  ssh $1.gamestop.$2
- else
-  ssh $1.gamestop.prod
+  ssh $2.$1.prod
  fi
 }
 
