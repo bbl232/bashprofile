@@ -46,6 +46,7 @@ alias gp='git pull'
 alias gc='git commit'
 alias gpu='git push'
 alias ga='git add -p'
+alias gs='git status'
 
 # Resize our window oppourtunistically
 shopt -s checkwinsize
