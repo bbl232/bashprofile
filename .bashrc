@@ -42,6 +42,10 @@ alias ..='cd ..'
 alias ls='ls -alhG'
 
 alias gl='git log --oneline --graph --all --decorate'
+alias gp='git pull'
+alias gc='git commit'
+alias gpu='git push'
+alias ga='git add -p'
 
 # Resize our window oppourtunistically
 shopt -s checkwinsize
