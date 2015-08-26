@@ -60,12 +60,13 @@ set completion-ignore-case on
 
 # Now to pimp out our prompt
 export LSCOLORS=dxexbxbxcxbxbxfx
+
 git_color(){
-  git status --short 2>/dev/null | grep -q '.*' && echo $RED || echo $GREEN
+  git diff --quiet --ignore-submodules HEAD 2>/dev/null && echo "$GREEN" || echo "$RED"
 }
 
 git_branch(){
-  git branch 2>/dev/null | grep -e '*' | cut -f2 -d' ' | sed -E 's/(.+)/ [\1]/'
+  git symbolic-ref --short HEAD 2>/dev/null | sed -E "s/(.+)/[\1]/"
 }
 
 PS1="\u@\h \[$BOLD$BLUE\](\w)\[$NOCOLOR\]\[\$(git_color)\]\$(git_branch)\[$NOCOLOR\] \$(echo -e '\xf0\x9f\x8d\xba')  \\$ "
