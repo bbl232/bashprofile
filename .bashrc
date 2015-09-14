@@ -39,7 +39,7 @@ colortest() {
 
 alias cd..='cd ..'
 alias ..='cd ..'
-alias ls='ls -alhG'
+alias ls='ls -alh'
 
 alias gl='git log --oneline --graph --all --decorate'
 alias gp='git pull'
