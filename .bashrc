@@ -83,3 +83,5 @@ export PATH=$PATH:/usr/local/share/npm/bin/
 export NODE_PATH='/usr/local/lib/node'
 export NODE_PATH=/usr/local/lib/node:/usr/local/lib/node
 export NODE_PATH=/usr/local/lib/node:/usr/local/lib/node:/usr/local/lib/node:/usr/local/lib/node
+#Add all ssh keys
+while read k; do ssh-add ~/.ssh/$k >/dev/null 2>&1; done < <(ls -als | grep "\-r.\-\-\-\-\-\-\-" | rev | cut -f 1 -d ' ' | rev)

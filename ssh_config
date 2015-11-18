@@ -1,3 +1,29 @@
+Host *
+StrictHostKeyChecking no
+
+Host www
+HostName vandenberk.me
+User bill
+
+Host local
+HostName 192.168.1.2
+User bill
+IdentityFile ~/.ssh/bill
+
+Host vpn
+HostName vpn.vandenberk.me
+User bill
+IdentityFile ~/.ssh/id_rsa
+
+Host owncloud
+HostName owncloud.vandenberk.me
+User bill
+IdentityFile ~/.ssh/id_rsa
+
+Host programmer
+HostName 192.168.1.207
+User pi
+
 Host vyatta.well.lan
 User vyatta
 
@@ -29,9 +55,13 @@ Host replica
 Port 2255
 User welladmin
 
-Host *.well.prod multistore.tulip.prod phabricator.tulip.prod internal.tulip.prod lb2.tulip.prod stage01.tulip.prod chef.tulip.prod *.carnation.prod
+Host internal.well.prod 
 ProxyCommand ssh 67.223.99.60 nc %h %p
 #ProxyCommand ssh 67.223.99.50 nc %h %p
+
+#Host *.well.prod multistore.tulip.prod phabricator.tulip.prod internal.tulip.prod lb2.tulip.prod stage01.tulip.prod chef.tulip.prod *.carnation.prod
+#ProxyCommand ssh 67.223.99.60 nc %h %p
+##ProxyCommand ssh 67.223.99.50 nc %h %p
 
 Host www*.well.aws
  User welladmin
@@ -56,7 +86,7 @@ Host sftp.tulip.io
   User welladmin
   StrictHostKeyChecking no
 
-Host nat01-imagesvpc nat01-imagesvpc.tulip.prod
+Host nat01-imagesvpc nat01-imagesvpc.tulip.prod nat01.images.prod
   Hostname ec2-54-86-121-252.compute-1.amazonaws.com
   User welladmin
   StrictHostKeyChecking no
@@ -71,7 +101,7 @@ Host nat01 nat01.tulip.prod
   User welladmin
   StrictHostKeyChecking no
 
-Host *.aircanada.* *.carnation.dev *.gamestop.* *.tulip.* *.mlse.* *.toysrus.* *.well.staging *.frankandoak.* *.michaelkors.*
+Host *.dev *.staging *.demo *.prod
   ProxyCommand ssh nat01 nc %h %p
   User welladmin
   StrictHostKeyChecking no
