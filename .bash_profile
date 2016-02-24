@@ -49,8 +49,6 @@ export CLICOLOR
 export HISTCONTROL=erasedups
 export HISTSIZE=10000
 
-export GREP_OPTIONS="-I --color --exclude=*.svn-base"
-
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 export SCALA_HOME=/usr/local/share/scala-2.9.2
