@@ -25,6 +25,10 @@ Host programmer
 HostName 192.168.1.207
 User pi
 
+Host internal.well.prod manage*.well.prod smc*.well.prod
+  ProxyCommand ssh 67.223.99.60 nc %h %p
+  #ProxyCommand ssh 67.223.99.50 nc %h %p
+
 Host vyatta.well.lan
 User vyatta
 
@@ -39,64 +43,163 @@ Host 204.15.199.162 well.ca
 Port 21122
 User wellca
 
-Host im.well.ca
-Port 2222
-User imwell
-
 Host prism.well.prod
 User root
 
 Host smc03.well.prod smc02.well.prod smc01.well.prod
-User root
+  User root
 
 Host *.well.ca *.well.lan *.well.prod *.tulip.prod *.carnation.prod 67.223.99.??
-User welladmin
+  User welladmin
 
 Host replica
-Port 2255
-User welladmin
-
-Host internal.well.prod 
-ProxyCommand ssh 67.223.99.60 nc %h %p
-#ProxyCommand ssh 67.223.99.50 nc %h %p
-
-#Host *.well.prod multistore.tulip.prod phabricator.tulip.prod internal.tulip.prod lb2.tulip.prod stage01.tulip.prod chef.tulip.prod *.carnation.prod
-#ProxyCommand ssh 67.223.99.60 nc %h %p
-##ProxyCommand ssh 67.223.99.50 nc %h %p
-
-Host www*.well.aws
- User welladmin
- ProxyCommand ssh nat01.well.aws nc $(echo %h | sed -E "s/aws$/prod/") %p
-
-Host nat01.well.aws
- HostName ec2-54-88-182-196.compute-1.amazonaws.com
- User welladmin
-
-Host manage.well.prod
-HostName 67.223.99.50
-
-Host manage02-smc02.well.prod
-HostName 67.223.99.60
+  Port 2255
+  User welladmin
 
 Host *
-ForwardAgent yes
-ServerAliveInterval 60
+  ForwardAgent yes
+  ServerAliveInterval 60
+  User welladmin
+
+Host manage.well.prod
+  HostName 67.223.99.50
+
+Host manage02-smc02.well.prod manage02.well.prod
+  HostName 67.223.99.60
+
+Host nat01-well-prod
+  Hostname 52.23.120.206
+
+Host *.well.prod
+  ProxyCommand ssh nat01-well-prod nc %h %p
+
+Host nat01-priority
+  Hostname 67.223.99.60
+
+Host *.well.priority
+  ProxyCommand ssh nat01-priority nc $(echo '%h' | sed -e 's/priority/prod/') %p
+
+Host phabricator.tulip.prod lb2.tulip.prod chef.tulip.prod *.carnation.prod
+  ProxyCommand ssh 67.223.99.60 nc %h %p
+  #ProxyCommand ssh 67.223.99.50 nc %h %p
 
 Host sftp.tulip.io
   Hostname sftp.tulip.io
   User welladmin
   StrictHostKeyChecking no
 
+# images vpc
+#
 Host nat01-imagesvpc nat01-imagesvpc.tulip.prod nat01.images.prod
   Hostname ec2-54-86-121-252.compute-1.amazonaws.com
   User welladmin
   StrictHostKeyChecking no
 
-Host images*.tulip.prod proxy*.tulip.prod *.images.prod
+Host proxy*.tulip.prod *.images.prod
   ProxyCommand ssh nat01-imagesvpc nc %h %p
   User welladmin
   StrictHostKeyChecking no
 
+# coach devstaging vpc
+#
+Host nat01-coach-devstaging
+  HostName 52.3.148.237
+  User welladmin
+
+Host *.coach.dev *.coach.staging
+  ProxyCommand ssh nat01-coach-devstaging nc %h %p
+  User welladmin
+  StrictHostKeyChecking no
+
+Host nat01-coach
+  HostName 52.21.226.79
+  User welladmin
+
+Host *.coach.prod
+  ProxyCommand ssh nat01-coach nc %h %p
+  User welladmin
+  StrictHostKeyChecking no
+
+Host nat01-saks-devstaging
+  Hostname 52.87.86.223
+  User welladmin
+
+Host *.saks.dev *.saks.staging
+  ProxyCommand ssh nat01-saks-devstaging nc %h %p
+  User welladmin
+  StrictHostKeyChecking no
+
+Host nat01-saks
+  HostName 52.72.86.166
+  User welladmin
+
+Host *.saks.prod
+  ProxyCommand ssh nat01-saks nc %h %p
+  User welladmin
+  StrictHostKeyChecking no
+
+Host nat01-clienteling-devstaging
+  Hostname 52.86.38.80
+  User welladmin
+  StrictHostKeyChecking no
+
+Host *.clienteling.dev *.clienteling.staging
+  ProxyCommand ssh nat01-clienteling-devstaging nc %h %p
+  User welladmin
+  StrictHostKeyChecking no
+
+Host nat01-gaelan-devstaging
+  Hostname 52.87.127.237
+  User welladmin
+  StrictHostKeyChecking no
+
+Host *.gaelan.dev
+  ProxyCommand ssh nat01-gaelan-devstaging nc %h %p
+  User welladmin
+  StrictHostKeyChecking no
+
+# frye ------------------------------------------
+
+Host nat01-frye-devstaging
+  Hostname 52.0.162.92
+
+Host nat01-frye
+  Hostname 52.202.101.198
+
+Host *.frye.dev *.frye.staging
+  ProxyCommand ssh nat01-frye-devstaging nc %h %p
+
+Host *.frye.prod
+  ProxyCommand ssh nat01-frye nc %h %p
+
+# frye end --------------------------------------
+
+# nautica ---------------------------------------
+
+Host nat01-nautica
+  Hostname 52.202.25.250
+
+Host *.nautica.prod
+  ProxyCommand ssh nat01-nautica nc %h %p
+
+# nautica end -----------------------------------
+
+# favela ---------------------------------------
+
+Host nat01-favela-devstaging
+  Hostname 52.70.40.204
+  User welladmin
+  StrictHostKeyChecking no
+
+Host *.favela.dev
+  ProxyCommand ssh nat01-favela-devstaging nc %h %p
+  User welladmin
+  StrictHostKeyChecking no
+
+# favela end -----------------------------------
+
+# main tulip shared vpc
+#
 Host nat01 nat01.tulip.prod
   Hostname 54.84.30.168
   User welladmin
@@ -116,3 +219,4 @@ Host vagrant
   PasswordAuthentication no
   IdentityFile ~/.vagrant.d/insecure_private_key
   IdentitiesOnly yes
+
