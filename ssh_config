@@ -8,17 +8,18 @@ User bill
 Host local
 HostName 192.168.1.2
 User bill
-IdentityFile ~/.ssh/bill
 
 Host vpn
 HostName vpn.vandenberk.me
 User bill
-IdentityFile ~/.ssh/id_rsa
 
 Host owncloud
 HostName owncloud.vandenberk.me
 User bill
-IdentityFile ~/.ssh/id_rsa
+
+Host home
+HostName home.vandenberk.me
+User bill
 
 Host programmer
 HostName 192.168.1.207
