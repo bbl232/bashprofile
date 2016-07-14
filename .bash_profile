@@ -29,6 +29,18 @@ function clone () {
  popd
 }
 
+function viscr() {
+  if [ -z $1 ]; then
+    file="$HOME/Documents/ScrumNotes/$(date +%Y/%B/%d.txt)"
+  else
+    file="$HOME/Documents/ScrumNotes/$(date -v$1 +%Y/%B/%d.txt)"
+  fi
+  if [ ! -d $(dirname $file) ]; then
+    mkdir -p $(dirname $file)
+  fi
+  vim $file
+}
+
 LESS_PATH=`which less`
 function less() {
   if [[ -d $1 ]]; then
