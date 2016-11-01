@@ -69,7 +69,7 @@ git_branch(){
   git symbolic-ref --short HEAD 2>/dev/null | sed -E "s/(.+)/[\1]/"
 }
 
-PS1="\u@\h \[$BOLD$BLUE\](\w)\[$NOCOLOR\]\[\$(git_color)\]\$(git_branch)\[$NOCOLOR\] \$(echo -e '\xf0\x9f\x8d\xba')  \\$ "
+PS1="\u@\h \[$BOLD$BLUE\](\w)\[$NOCOLOR\]\[\$(git_color)\]\$(git_branch)\[$NOCOLOR\] \n\$(echo -e '\xf0\x9f\x8d\xba')  \\$ "
 
 # Prompt command updates our terminal window title
 PROMPT_COMMAND='echo -ne "\033]0; [${USER}@${HOSTNAME} ${PWD/$HOME/~}]\007"'
