@@ -23,17 +23,39 @@ function s (){
  fi
 }
 
+function inbox () {
+  if [ -z "${1}" ] || [ -z "${2}" ]; then
+    echo "Usage: inbox 'title' 'description'"
+    return
+  fi
+
+  file=$(mktemp)
+
+  echo "
+  {
+    \"title\": \"${1}\",
+    \"description\": \"${2}\",
+    \"projectPHIDs\": [\"PHID-PROJ-gurqssurklz6ohb3weex\"],
+    \"priority\": 50
+  }" > ${file}
+  cat ${file} | arc call-conduit maniphest.createtask && rm ${file}
+}
+
 function clone () {
- pushd ~/workspace
- git clone tulipadmin@internal.well.prod:git/$1.git
- popd
+  pushd ~/workspace
+  if [ -z $2 ]; then
+     git clone tulipadmin@internal.well.prod:git/$1.git
+  else
+     git clone $2@internal.well.prod:git/$1.git
+  fi
+  popd
 }
 
 function viscr() {
   if [ -z $1 ]; then
-    file="$HOME/Documents/ScrumNotes/$(date +%Y/%B/%d.txt)"
+    file="$HOME/Documents/ScrumNotes/$(date +%Y/%m-%B/%d.md)"
   else
-    file="$HOME/Documents/ScrumNotes/$(date -v$1 +%Y/%B/%d.txt)"
+    file="$HOME/Documents/ScrumNotes/$(date -v$1 +%Y/%m-%B/%d.md)"
   fi
   if [ ! -d $(dirname $file) ]; then
     mkdir -p $(dirname $file)
@@ -52,7 +74,7 @@ function less() {
 
 # User specific environment (stuff that will get passed on to subshells)
 
-export PATH=$HOME/.bin:~/.gem/ruby/1.8/bin:$PATH
+export PATH=~/.rbenv/shims:$HOME/.bin:~/.gem/ruby/1.8/bin:$PATH
 export MANPATH=/usr/local/man:$MANPATH
 
 unset USERNAME
