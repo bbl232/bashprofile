@@ -69,14 +69,13 @@ git_branch(){
   git symbolic-ref --short HEAD 2>/dev/null | sed -E "s/(.+)/[\1]/"
 }
 
-PS1="\u@\h \[$BOLD$BLUE\](\w)\[$NOCOLOR\]\[\$(git_color)\]\$(git_branch)\[$NOCOLOR\] \n\$(echo -e '\xf0\x9f\x8d\xba')  \\$ "
+PS1="\u@\h \[$BOLD$BLUE\](\w)\[$NOCOLOR\]\[\$(git_color)\]\$(git_branch)\[$NOCOLOR\] \n\$(echo -e '\xf0\x9f\x8d\xba')\[ \] \\$ "
 
 # Prompt command updates our terminal window title
 PROMPT_COMMAND='echo -ne "\033]0; [${USER}@${HOSTNAME} ${PWD/$HOME/~}]\007"'
 
 # Arcanist for create code reviews on Phabricator
-export PATH=$PATH:~/workspace/dev_scripts/arcanist/bin
-alias cr='arc diff --preview'
+alias :q='exit'
 
 export EDITOR=vim
 export PATH=$PATH:/usr/local/share/npm/bin/
@@ -85,3 +84,14 @@ export NODE_PATH=/usr/local/lib/node:/usr/local/lib/node
 export NODE_PATH=/usr/local/lib/node:/usr/local/lib/node:/usr/local/lib/node:/usr/local/lib/node
 #Add all ssh keys
 while read k; do ssh-add ~/.ssh/$k >/dev/null 2>&1; done < <(ls -als | grep "\-r.\-\-\-\-\-\-\-" | rev | cut -f 1 -d ' ' | rev)
+
+function knife2(){
+  knife $@ --config ~/.chef/knife2.rb
+}
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.bash ] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.bash
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.bash ] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.bash
