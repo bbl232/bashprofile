@@ -89,6 +89,38 @@ function knife2(){
   knife $@ --config ~/.chef/knife2.rb
 }
 
+function kcontext(){
+  if [ -z "${1}" ] || [ -z "${2}" ]; then
+    echo "Usage: kcontext <project> <namespace> # e.g. kcontext tulip-develop bill"
+    return 1
+  fi
+
+  gcloud config set project ${1}
+  clusters=$(gcloud container clusters list --format json)
+  count=$(echo ${clusters} | jq -r 'length')
+  index=0
+  if [ 1 -eq ${count} ]; then
+    echo "Defaulting to cluster: $(echo ${clusters} | jq '.[0].name')"
+  else
+    cluster_names=($(echo ${clusters} | jq -r '.[].name'))
+    echo "Which cluster?"
+    for cluster in ${!cluster_names[@]}; do
+     echo "[${cluster}] - ${cluster_names[$cluster]}"
+    done
+    read -p "[0]: " index
+  fi
+
+  index=${index:-0}
+
+  region=$(echo ${clusters} | jq .[$index].'location' -r)
+  cluster=$(echo ${clusters} | jq .[$index].'name' -r)
+  gcloud container clusters get-credentials ${cluster} --region ${region} --project ${1}
+  context="${1}-${2}"
+
+  kubectl config set-context ${context} --cluster=gke_${1}_${region}_${cluster} --namespace=${2} --user=gke_${1}_${region}_${cluster}
+  kubectl config use-context ${context}
+}
+
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
 [ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.bash ] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.bash
