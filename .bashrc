@@ -40,6 +40,7 @@ colortest() {
 alias cd..='cd ..'
 alias ..='cd ..'
 alias ls='ls -alh'
+alias k='kubectl'
 
 alias gl='git log --oneline --graph --all --decorate'
 alias gp='git pull'
@@ -47,6 +48,7 @@ alias gc='git commit'
 alias gpu='git push'
 alias ga='git add -p'
 alias gs='git status'
+alias retire='aws autoscaling set-instance-health --health-status Unhealthy --instance-id'
 
 # Resize our window oppourtunistically
 shopt -s checkwinsize
@@ -69,13 +71,16 @@ git_branch(){
   git symbolic-ref --short HEAD 2>/dev/null | sed -E "s/(.+)/[\1]/"
 }
 
-PS1="\u@\h \[$BOLD$BLUE\](\w)\[$NOCOLOR\]\[\$(git_color)\]\$(git_branch)\[$NOCOLOR\] \n\$(echo -e '\xf0\x9f\x8d\xba')\[ \] \\$ "
+PS1="\u@\h \[$BOLD$BLUE\](\w)\[$NOCOLOR\]\[\$(git_color)\]\$(git_branch)\[$NOCOLOR\] \n\$(echo -e '\xf0\x9f\x8d\xba') \\$ "
 
 # Prompt command updates our terminal window title
 PROMPT_COMMAND='echo -ne "\033]0; [${USER}@${HOSTNAME} ${PWD/$HOME/~}]\007"'
 
 # Arcanist for create code reviews on Phabricator
+export PATH=$PATH:~/workspace/dev_scripts/arcanist/bin
 alias :q='exit'
+alias kiali='kubectl port-forward -n istio-system $(kubectl get po -l app=kiali -n istio-system -o json | jq '.items[0].metadata.name' -r) 20001'
+alias grafana='kubectl port-forward -n istio-system $(kubectl get po -l app=grafana -n istio-system -o json | jq '.items[0].metadata.name' -r) 3000'
 
 export EDITOR=vim
 export PATH=$PATH:/usr/local/share/npm/bin/
