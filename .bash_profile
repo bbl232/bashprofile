@@ -23,39 +23,41 @@ function s (){
  fi
 }
 
-function inbox () {
-  if [ -z "${1}" ] || [ -z "${2}" ]; then
-    echo "Usage: inbox 'title' 'description'"
-    return
+function clone () {
+  if [ -z $2 ]; then
+    pushd ~/workspace
+  else
+    pushd $2
   fi
-
-  file=$(mktemp)
-
-  echo "
-  {
-    \"title\": \"${1}\",
-    \"description\": \"${2}\",
-    \"projectPHIDs\": [\"PHID-PROJ-gurqssurklz6ohb3weex\"],
-    \"priority\": 50
-  }" > ${file}
-  cat ${file} | arc call-conduit maniphest.createtask && rm ${file}
+ git clone git@git.internal.tulip.io:$1.git
+  popd
 }
 
-function clone () {
-  pushd ~/workspace
+function clone-profile () {
   if [ -z $2 ]; then
-     git clone tulipadmin@internal.well.prod:git/$1.git
+    if [ ! -d ~/workspace/profiles/$1 ]; then
+      mkdir ~/workspace/profiles/$1
+    fi
+    pushd ~/workspace/profiles/$1
   else
-     git clone $2@internal.well.prod:git/$1.git
+    pushd $2
   fi
+ git clone git@git.internal.tulip.io:ops/gcp/modules/tulip-develop/$1/infra_base_0.git
+ git clone git@git.internal.tulip.io:ops/gcp/modules/tulip-develop/$1/infra_config_1.git
+ git clone git@git.internal.tulip.io:ops/gcp/modules/tulip-develop/$1/infra_service_2.git
+ git clone git@git.internal.tulip.io:ops/gcp/modules/tulip-develop/$1/app_config_3.git
+ git clone git@git.internal.tulip.io:ops/gcp/modules/tulip-develop/$1/app_service_4.git
+ git clone git@git.internal.tulip.io:ops/gcp/modules/tulip-develop/$1/pause_5.git
+ git clone git@git.internal.tulip.io:ops/gcp/modules/tulip-develop/$1/freeze_6.git
+ git clone git@git.internal.tulip.io:ops/gcp/modules/tulip-develop/$1/delete_7.git
   popd
 }
 
 function viscr() {
   if [ -z $1 ]; then
-    file="$HOME/Documents/ScrumNotes/$(date +%Y/%m-%B/%d.md)"
+    file="$HOME/Documents/ScrumNotes/$(date +%Y/%m-%B.txt)"
   else
-    file="$HOME/Documents/ScrumNotes/$(date -v$1 +%Y/%m-%B/%d.md)"
+    file="$HOME/Documents/ScrumNotes/$(date -v$1 +%Y/%m-%B.txt)"
   fi
   if [ ! -d $(dirname $file) ]; then
     mkdir -p $(dirname $file)
@@ -87,3 +89,11 @@ export HISTSIZE=10000
 
 export SCALA_HOME=/usr/local/share/scala-2.9.2
 export PATH=$PATH:$SCALA_HOME/bin
+export PATH="/usr/local/opt/qt/bin:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/bill/Applications/google-cloud-sdk/path.bash.inc' ]; then . '/Users/bill/Applications/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/bill/Applications/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/bill/Applications/google-cloud-sdk/completion.bash.inc'; fi
+
