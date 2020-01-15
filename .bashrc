@@ -81,6 +81,8 @@ export PATH=$PATH:~/workspace/dev_scripts/arcanist/bin
 alias :q='exit'
 alias kiali='kubectl port-forward -n istio-system $(kubectl get po -l app=kiali -n istio-system -o json | jq '.items[0].metadata.name' -r) 20001'
 alias grafana='kubectl port-forward -n istio-system $(kubectl get po -l app=grafana -n istio-system -o json | jq '.items[0].metadata.name' -r) 3000'
+alias jaeger='kubectl port-forward -n istio-system $(kubectl get po -l app=jaeger -n istio-system -o json | jq '.items[0].metadata.name' -r) 16686'
+
 
 export EDITOR=vim
 export PATH=$PATH:/usr/local/share/npm/bin/
